@@ -13,11 +13,14 @@ module.exports = {
     delete() {
 
     },
-    verifyConnection() {
+    async verifyConnection() {
         const pool = new Pool({ connectionString })
-        pool.query('SELECT NOW()', (err, res) => {
-            console.log(err, res)
-            pool.end()
-        })
+        try {
+            const { rows } = await pool.query('SELECT NOW()')
+            return rows.length > 0
+        }
+        catch (e) {
+            return false
+        }
     }
 }
