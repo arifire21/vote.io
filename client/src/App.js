@@ -1,14 +1,19 @@
-import logo from './logo.svg';
 import './App.css';
-import DashDrawer from './components/DashDrawer';
-import PermanentDrawerRight from './components/PermDrawerLeft';
+import { Link, Outlet } from "react-router-dom";
 
 function App() {
   return (
     <div>
-      <h1>Hi</h1>
-      {/* <DashDrawer/> */}
-      <PermanentDrawerRight/>
+      <nav
+        style={{
+          borderBottom: "solid 1px",
+          paddingBottom: "1rem",
+        }}
+      >
+        <Link to="/login">Login</Link> |{" "}
+        <Link to="/create-poll">Create A Poll</Link>
+      </nav>
+      <Outlet/>
     </div>
   );
 }
