@@ -1,19 +1,11 @@
 import './App.css';
-import { Link, Outlet } from "react-router-dom";
+import TestHeader from './components/TestHeader';
 
 function App() {
   return (
     <div>
-      <nav
-        style={{
-          borderBottom: "solid 1px",
-          paddingBottom: "1rem",
-        }}
-      >
-        <Link to="/login">Login</Link> |{" "}
-        <Link to="/create-poll">Create A Poll</Link>
-      </nav>
-      <Outlet/>
+      <TestHeader/>
+      <h1>Dashboard</h1>
     </div>
   );
 }
