@@ -3,10 +3,7 @@ const req = require('express/lib/request')
 const app = express()
 app.use(express.json())
 const {verifyConnection} = require('./utils/cockroach')
-
-verifyConnection()
-
-
+ 
 
 
 app.listen(5000, ()=>{
