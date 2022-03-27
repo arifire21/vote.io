@@ -2,7 +2,8 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 const cockroach = require('./utils/cockroach');
-
+const tokenGen = require('random-token')
+const token = () => tokenGen(20)
 const connected = cockroach.verifyConnection()
 
 /* 
