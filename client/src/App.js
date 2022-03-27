@@ -1,15 +1,13 @@
 import './App.css';
-
-import TestHeader from './components/TestHeader';
 import Card from './components/Card';
 import Subcard from './components/Subcard';
 import Grid from '@mui/material/Grid';
+import Navbar from './components/Navbar'
 
 function App() {
   return (
     <div>
-      <TestHeader/>
-      <h1>Dashboard</h1>
+      <Navbar/>
       <Card title = "Vote.io"
       content = "where democracy meets technology"
       />

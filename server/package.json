@@ -11,6 +11,8 @@
   "dependencies": {
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "random-token": "^0.0.8",
+    "sql-escape": "^1.0.1"
   }
 }

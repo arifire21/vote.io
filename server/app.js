@@ -1,22 +1,41 @@
 const express = require('express')
-const req = require('express/lib/request')
 const app = express()
 app.use(express.json())
-const { verifyConnection } = require('./utils/cockroach')
+const cockroach = require('./utils/cockroach');
+const tokenGen = require('random-token')
+const token = () => tokenGen(20)
+const connected = cockroach.verifyConnection()
+const {auth} = require('./utils/auth')
+
+/* 
+findAll(collection) -> rows []
+findOne(collection,id) -> row
+findWhere(collection,entry(JSON key values of columns)) -> rows []
+create(collection, entry(JSON)) -> new ID
+update(collection,id,entry(JSON)) -> boolean
+delete(collection,id) -> boolean
+verifyConnection() -> boolean
+*/
 
 
-if (verifyConnection()) {
+connected ? console.log('connected to cockroach') : console.log('there was an error with the database connection')
+
+if (connected) {
     // account creation
-    // {username,password,pubKey,2xHashedSSN,aboutObject}
+    // {firstname, lastname, username,password,pubKey,ssn}
     app.post('/create-account', (req, res)=> {
         const {body} = req;
-        const {username, password, pubKey, ssn, aboutObject} = body;
-        console.log(`${username} ${password} ${pubKey}`);
+        const {username, password, pubKey, ssn, firstName, lastName} = body;
         // verify ssn with list of registered voters
         // create user
+        const user_id = await cockroach.create('USERS', {username, password});
         // create account
+        await cockroach.create('ACCOUNT', {f_name:firstName, l_name:lastName, user_id:user_id, ssn, pubkey:pubKey});
         // attach pubkey to user
         // return jwt
+        const token = token();
+        await cockroach.create('TOKEN',{token:token, user_id:user_id});
+        return token;
     })
 
     // login
@@ -29,9 +48,11 @@ if (verifyConnection()) {
     })
 
     // votes
-    app.get('votes', (req, res)=> {
-        const {body} = req;
-        const {jwt} = body;
+    app.get('/votes', async(req, res)=> {
+        const worked = await auth(req)
+        res.send(worked)
+
+
         // return all active votes
     })
 
