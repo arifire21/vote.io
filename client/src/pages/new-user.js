@@ -83,17 +83,6 @@ class NewUser extends React.Component {
                 />
             </div>
 
-            {/* <div className="form-item">
-                <TextField
-                    id="filled-password-input"
-                    label="Confirm Password"
-                    type="password"
-                    name="confirm-pw"
-                    variant="filled"
-                    required="true"
-                />
-            </div> */}
-
             <div className="form-item submit-btn">
               <Button variant="contained" onSubmit={this.handleSubmit}>Register</Button>
             </div>
