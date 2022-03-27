@@ -17,6 +17,17 @@ import {Link,useLocation} from 'react-router-dom'
 
 function App() {
 
+    const [loaded, setLoaded] = useState(false)
+    const [count,setCount] = useState([])
+  const [entry, setEntry] = useState({
+    created_at: null,
+    description: "",
+    id: "",
+    name: "",
+    type: ""
+  })
+  const [votes,setVotes] = useState([])
+
     async function castVote(candidateId){
         const jwt = await returnJWT()
         const instance = axios.create({
@@ -28,7 +39,8 @@ function App() {
         const signedVote = await sign(candidateId)
         const postable = {
             candidate: candidateId,
-            signature: signedVote
+            signature: signedVote,
+            election: entry.id
         }
         const {data} = instance.post('/vote',postable)
 
@@ -37,15 +49,7 @@ function App() {
 
     const {search:path} = useLocation()
 
-  const [loaded, setLoaded] = useState(false)
-  const [entry, setEntry] = useState({
-    created_at: null,
-    description: "",
-    id: "",
-    name: "",
-    type: ""
-  })
-  const [votes,setVotes] = useState([])
+  
 
   async function api() {
     
@@ -74,6 +78,10 @@ function App() {
       const {data:votesQuery} = await instance.get(`/candidates?election=${electionRow.id}`)
       const {data: votesArray} = votesQuery
       setVotes(votesArray)
+
+      const {data:voteCount} = await instance.get('/votes')
+      const {data:votesArrayCount} = voteCount
+      setCount(votesArrayCount)
 
       
     }
@@ -107,6 +115,7 @@ function App() {
           {votes.map(item => (
           <Subcard subtitle={item.f_name + ' ' + item.l_name}>
              <p>Affiliation: <strong class="text-white">{item.affiliation}</strong></p>
+             <p class="text-white">VERIFIED VOTES: {count.filter(i => i.candidate_id == item.id).length}</p>
              <Button onClick={() => castVote(item.id)}>VOTE</Button> 
           </Subcard>
           ))}
