@@ -36,19 +36,40 @@ class CreatePoll extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
  
-    const user = {
-      name: this.state.name,
-      description: this.state.description,
-      election_type: this.state.election_type,
-      c1_first_name: this.state.c1_first_name,
-      c1_last_name: this.state.c1_last_name,
-      c1_affiliation: this.state.c1_affiliation,
-      c2_first_name: this.state.c2_first_name,
-      c2_last_name: this.state.c2_last_name,
-      c2_affiliation: this.state.c2_affiliation
+    const userData = {
+      // name: this.state.name,
+      // description: this.state.description,
+      // election_type: this.state.election_type,
+      // c1_first_name: this.state.c1_first_name,
+      // c1_last_name: this.state.c1_last_name,
+      // c1_affiliation: this.state.c1_affiliation,
+      // c2_first_name: this.state.c2_first_name,
+      // c2_last_name: this.state.c2_last_name,
+      // c2_affiliation: this.state.c2_affiliation
+
+      // {
+        "candidates": [
+            {
+                "f_name":"this.state.c1_first_name",
+                "l_name":"this.state.c1_last_name",
+                "affiliation":"this.state.c1_affiliation"
+            },
+            {
+                "f_name":"this.state.c2_first_name",
+                "l_name":"this.state.c2_first_name",
+                "affiliation":"this.state.c2_affiliation"
+            }
+        ],
+        "election": {
+            "name":"this.state.name",
+            "type":"this.state.election_type",
+            "description":"this.state.description"
+        }
+    // }
+      
     };
  
-    axios.post(`https://jsonplaceholder.typicode.com/users`, { user })
+    axios.post(`http://localhost:5000/create-election`, { userData })
       .then(res => {
         console.log(res);
         console.log(res.data);
@@ -59,7 +80,7 @@ render() {
   return (
     <div>
       <Navbar/>
-      <h1>Create a Poll</h1>
+      <h1>Create an Election</h1>
       <form>
         <div className="form-container">
           <div className="form-item">
