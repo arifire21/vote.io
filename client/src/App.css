@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.vote{
+  background-color: light blue;
+  color: white ;
+  padding: 30px;
+  margin: 30px;
+}
+
+.voteTitle{
+  font-size: 100
+}
+
+.voteContent{
+  font-size: 50;
+}
