@@ -5,7 +5,8 @@ const cockroach = require('./utils/cockroach');
 const tokenGen = require('random-token')
 const token = () => tokenGen(20)
 const connected = cockroach.verifyConnection()
-const {auth} = require('./utils/auth')
+const {auth} = require('./utils/auth');
+const { findOne } = require('./utils/cockroach');
 
 /* 
 findAll(collection) -> rows []
@@ -15,8 +16,6 @@ create(collection, entry(JSON)) -> new ID
 update(collection,id,entry(JSON)) -> boolean
 delete(collection,id) -> boolean
 verifyConnection() -> boolean
-
-
 */
 
 
@@ -27,19 +26,29 @@ if (connected) {
 
     // account creation
     // {firstname, lastname, username,password,pubKey,ssn}
-    app.post('/create-account', (req, res)=> {
+    app.post('/create-account', async (req, res)=> {
         const {body} = req;
-        const {username, password, pubKey, ssn, aboutObject} = body;
-        console.log(`${username} ${password} ${pubKey}`);
+        const {username, password, pubKey, ssn, firstName, lastName} = body;
         // verify ssn with list of registered voters
         // create user
+        const user_id = await cockroach.create('USERS', {username, password});
         // create account
+        await cockroach.create('ACCOUNT', {f_name:firstName, l_name:lastName, user_id:user_id, ssn, pubkey:pubKey});
         // attach pubkey to user
         // return jwt
+        const token = token();
+        const issued_token = await cockroach.findWhere('TOKEN', {token:token});
+        if (issued_token){
+            console.log("Token already issued");
+            return res.status(400).json({success:false, token:issued_token});
+        }else{ 
+            await cockroach.create('TOKEN',{token:token, user_id:user_id});
+            return res.status(200).json({success:true, token:token});
+        }
     })
 
     // login
-    app.post('/login', (req, res)=> {
+    app.post('/login', async (req, res)=> {
         const {body} = req;
         const {username, password} = body;
         console.log(`username: ${username} | password: ${password}`)
