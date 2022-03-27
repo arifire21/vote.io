@@ -1,4 +1,5 @@
 const express = require('express')
+const crypto = require('crypto')
 const app = express()
 app.use(express.json())
 const cockroach = require('./utils/cockroach');
@@ -8,6 +9,8 @@ const connected = cockroach.verifyConnection()
 const { auth } = require('./utils/auth');
 const { findOne } = require('./utils/cockroach');
 const {getUserFromToken} = require('./utils/user')
+const cors = require('cors')
+app.use(cors())
 
 /* 
 findAll(collection) -> rows []
@@ -126,12 +129,27 @@ if (connected) {
     })
 
     // vote
-    app.post('/vote', (req, res) => {
-        const { body } = req;
-        const { jwt, signedVote } = body;
-        // privkey signed vote submitted
-        // verify vote with pubkey
-        // tally verified votes
+    app.post('/vote', async (req, res) => {
+        const authorization = await auth(req)
+        if(authorization){
+            const {candidate,signature} = req.body
+            const userId = await getUserFromToken(authorization)
+            const [entry] = await cockroach.findWhere('ACCOUNTS',{user_id: userId})
+
+            const verifier = crypto.createVerify('RSA-SHA256');
+            verifier.update(candidate)
+            const {pubkey : pk} = entry
+            if(verifier.verify(pk,signature,'base64')){
+                console.log('TRUEEEE')
+            }
+            else{
+                console.log("ERRRORORORRO")
+            }
+
+            
+
+
+        }
     })
 }
 

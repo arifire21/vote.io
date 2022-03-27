@@ -6,7 +6,6 @@ import Navbar from "../components/Navbar";
 import axios from "axios";
 
 class NewUser extends React.Component {
-
   state = {
     first_name: '',
     last_name: '',
@@ -47,11 +46,7 @@ class NewUser extends React.Component {
       last_name: this.state.last_name,
     };
  
-    axios.post(`http://localhost:5000/create-account`, { userData })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
+    console.log(user)
   }
 
     render() {
@@ -84,7 +79,7 @@ class NewUser extends React.Component {
             </div>
 
             <div className="form-item submit-btn">
-              <Button variant="contained" onSubmit={this.handleSubmit}>Register</Button>
+              <Button variant="contained" onClick={() => handleSubmit()}>Register</Button>
             </div>
           </div>
       </div>

@@ -16,7 +16,7 @@ export default function Navbar() {
                     <div className="navbar-tooltip">
                         <Tooltip title="Home" placement="right">
                             <Button variant="text" size="large">
-                                <Link to="/"><ImHome/></Link>
+                                <Link to="/"><ImHome color="white"/></Link>
                             </Button>
                         </Tooltip>
                     </div>
@@ -25,7 +25,7 @@ export default function Navbar() {
                     <div className="navbar-tooltip">
                     <Tooltip title="Register" placement="right">
                         <Button variant="text" size="small">
-                            <Link to="/create-account"><FaRegistered/></Link>
+                            <Link to="/new-user"><FaRegistered color="white"/></Link>
                         </Button>
                     </Tooltip>
                     </div>
@@ -34,7 +34,7 @@ export default function Navbar() {
                    <div className="navbar-tooltip">
                         <Tooltip title="Login" placement="right">
                             <Button variant="text" size="large">
-                                <Link to="/login"><RiLoginBoxFill/></Link>
+                                <Link to="/login"><RiLoginBoxFill color="white"/></Link>
                             </Button>
                         </Tooltip>
                     </div>
@@ -44,7 +44,7 @@ export default function Navbar() {
                     <div className="navbar-tooltip">
                         <Tooltip title="Create Election" placement="right">
                             <Button variant="text" size="large">
-                                <Link to="/create-election"><IoMdCreate/></Link>
+                                <Link to="/create-poll"><IoMdCreate color="white"/></Link>
                             </Button>
                         </Tooltip>
                     </div>
@@ -54,7 +54,7 @@ export default function Navbar() {
                     <div className="navbar-tooltip">
                         <Tooltip title="View Polls" placement="right">
                             <Button variant="text" size="large">
-                                <Link to="/view-poll"><AiFillEye/></Link>
+                                <Link to="/view-poll"><AiFillEye color="white"/></Link>
                             </Button>
                         </Tooltip>
                     </div>    
