@@ -22,20 +22,20 @@ connected ? console.log('connected to cockroach') : console.log('there was an er
 
 if (connected) {
     // account creation
-<<<<<<< HEAD
-    // {username,password,pubKey,2xHashedSSN, firstName, lastName}
-=======
     // {firstname, lastname, username,password,pubKey,ssn}
->>>>>>> f2acf228b1bebcd584abbe8ad9fed0462e861594
     app.post('/create-account', (req, res)=> {
         const {body} = req;
         const {username, password, pubKey, ssn, firstName, lastName} = body;
-        console.log(`${username} ${password} ${pubKey}`);
         // verify ssn with list of registered voters
         // create user
+        const user_id = await cockroach.create('USERS', {username, password});
         // create account
+        await cockroach.create('ACCOUNT', {f_name:firstName, l_name:lastName, user_id:user_id, ssn, pubkey:pubKey});
         // attach pubkey to user
         // return jwt
+        const token = token();
+        await cockroach.create('TOKEN',{token:token, user_id:user_id});
+        return token;
     })
 
     // login
