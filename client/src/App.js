@@ -9,7 +9,7 @@ function App() {
     <div>
       <Navbar/>
       <Card title = "Vote.io"
-      content = "where democracy meets technology"
+      content = "Where democracy meets technology"
       />
 
       <Grid container spacing={1}  >
