@@ -17,7 +17,7 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/create-poll" element={<CreatePoll />} />
+        <Route path="/create-election" element={<CreatePoll />} />
         <Route path="/view-poll" element={<ViewPoll />} />
         <Route path="/create-account" element={<NewUser />} />
         {/* <Route path="/vote" element={<VotePage />} /> */}

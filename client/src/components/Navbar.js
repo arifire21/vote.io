@@ -42,9 +42,9 @@ export default function Navbar() {
 
                 <div className="navlink-item">
                     <div className="navbar-tooltip">
-                        <Tooltip title="Create Poll" placement="right">
+                        <Tooltip title="Create Election" placement="right">
                             <Button variant="text" size="large">
-                                <Link to="/create-poll"><IoMdCreate/></Link>
+                                <Link to="/create-election"><IoMdCreate/></Link>
                             </Button>
                         </Tooltip>
                     </div>
