@@ -1,25 +1,15 @@
 import TestHeader from "../components/TestHeader";
-// import CustomTextField from "../components/TextField";
 import TextField from '@mui/material/TextField';
-import CustomMultiline from '../components/MultilineTextField';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 export default function CreatePoll() {
+  // const 
+
     return (
       <div>
         {/* <TestHeader/> */}
-        <header>
-        <nav
-          style={{
-            borderBottom: "solid 1px",
-            paddingBottom: "1rem",
-          }}
-        >
-          <Link to="/">Home</Link>
-        </nav>
-        
-      </header>
+        <Navbar/>
 
           <h1>Create a Poll</h1>
           <div className="form-container">
