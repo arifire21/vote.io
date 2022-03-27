@@ -1,11 +1,26 @@
 const express = require('express')
-const req = require('express/lib/request')
 const app = express()
 app.use(express.json())
-const { verifyConnection } = require('./utils/cockroach')
+const cockroach = require('./utils/cockroach');
+
+const connected = cockroach.verifyConnection()
+
+/* 
+findAll(collection) -> rows []
+findOne(collection,id) -> row
+findWhere(collection,entry(JSON key values of columns)) -> rows []
+create(collection, entry(JSON)) -> new ID
+update(collection,id,entry(JSON)) -> boolean
+delete(collection,id) -> boolean
+verifyConnection() -> boolean
 
 
-if (verifyConnection()) {
+*/
+
+
+connected ? console.log('connected to cockroach') : console.log('there was an error with the database connection')
+
+if (connected) {
     // account creation
     // {username,password,pubKey,2xHashedSSN, firstName, lastName}
     app.post('/create-account', (req, res)=> {
