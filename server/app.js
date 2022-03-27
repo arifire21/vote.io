@@ -23,6 +23,8 @@ verifyConnection() -> boolean
 connected ? console.log('connected to cockroach') : console.log('there was an error with the database connection')
 
 if (connected) {
+
+
     // account creation
     // {firstname, lastname, username,password,pubKey,ssn}
     app.post('/create-account', (req, res)=> {
@@ -47,18 +49,30 @@ if (connected) {
 
     // votes
     app.get('/votes', async(req, res)=> {
-        const worked = await auth(req)
-        res.send(worked)
+        const authenticated = await auth(req)
+        if(authenticated){
+            const allVotes = await cockroach.findAll('VOTES')
+            res.status(200).json({success: true, data: allVotes})
+        }
+        else {
+            res.status(403).json({success: false})
+        }
+        
 
 
         // return all active votes
     })
 
     // vote?id
-    app.get('/vote', (req, res)=> {
-        const {id} = req.query;
-        res.send(`${id}`);
-        // returns the votes with the specified id
+    app.get('/vote', async (req, res)=> {
+        const authenticated = await auth(req)
+        if(authenticated){ 
+            const {id} = req.params
+            const vote = await cockroach.findOne('ELECTIONS',id)
+            res.status(200).json({success: true, data: vote})
+        }
+        else res.status(403).json({success: false})
+        
     })
 
     // create-vote
