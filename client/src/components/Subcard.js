@@ -5,7 +5,7 @@ export default function Subcard(props) {
   // <>
     <div className='vote'>
         <div className ='voteTitleSub'>{props.subtitle}</div>
-        <div className ='voteTable' >
+        <div className ='voteTable voteContent' >
           <table>
               <tr>
                 <td>{props.name1}</td>

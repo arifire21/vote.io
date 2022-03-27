@@ -61,11 +61,23 @@ export async function sign(message) {
     return base64Signature
 }
 
-
-async function main(){
-    //testing
-    await generateAndSaveKeys()
-    const signature = await sign('hello')
-    console.log(signature)
+export async function doubleHash(ssn){
+    const generateHash = async (message) => {
+        const encoder = new TextEncoder();
+        const buffer = encoder.encode(message);
+      
+        const digest = await window.crypto.subtle.digest('SHA-256', buffer);
+      
+        // Convert to hex string
+        return [...new Uint8Array(digest)]
+          .map(v => v.toString(16).padStart(2, '0')).join('');;
+      };
+      const hash1 = await generateHash(ssn)
+      const hash2 = await generateHash(hash1)
+      return hash2
 }
-main()
+
+export function returnJWT() {
+    const jwt = document.cookie.split('jwt=')[1].split(';')[0]
+    return jwt
+}

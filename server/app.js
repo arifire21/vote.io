@@ -9,6 +9,8 @@ const connected = cockroach.verifyConnection()
 const { auth } = require('./utils/auth');
 const { findOne } = require('./utils/cockroach');
 const {getUserFromToken} = require('./utils/user')
+const cors = require('cors')
+app.use(cors())
 
 /* 
 findAll(collection) -> rows []

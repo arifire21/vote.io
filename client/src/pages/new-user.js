@@ -5,29 +5,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 class NewUser extends React.Component {
-  // const [password , setPassword] = useState('');
-  //   const [confPassword , setConfPassword] = useState('');
 
-  //   // function to update state of password with
-  //   // value enter by user in form
-  //   const handlePasswordChange =(e)=>{
-  //       setPassword(e.target.value);
-  //   }
-  //   // function to update state of confirm password
-  //   // with value enter by user in form
-  //   const handleConfPasswordChange =(e)=>{
-  //       setConfPassword(e.target.value);
-  //   }
-  //   // below function will be called when user
-  //   // click on submit button .
-  //   const handleSubmit=(e)=>{
-  //   if(password!=confPassword)
-  //       {
-  //           // if 'password' and 'confirm password'
-  //           // does not match.
-  //           alert("Passwords do not match.");
-  //       }
-  //   }
 
   state = {
     first_name: '',
@@ -62,11 +40,7 @@ class NewUser extends React.Component {
       password: this.state.password
     };
  
-    axios.post(`https://jsonplaceholder.typicode.com/users`, { user })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
+    console.log(user)
   }
 
     render() {
@@ -109,7 +83,7 @@ class NewUser extends React.Component {
             </div>
 
             <div className="form-item submit-btn">
-              <Button variant="contained">Register</Button>
+              <Button variant="contained" onClick={() => handleSubmit()}>Register</Button>
             </div>
           </div>
       </div>
