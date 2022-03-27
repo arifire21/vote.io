@@ -29,9 +29,21 @@ if (connected) {
     console.log(result)
 })()
 
+    app.get('/my-votes',async(req,res)=>{
+        const authenticated = await auth(req)
+        if(authenticated){
+            const userId = await getUserFromToken(authenticated)
+            const [{id:accountId}] = await cockroach.findWhere('ACCOUNTS',{user_id: userId})
+            const myVotes = await cockroach.findWhere('VOTES',{account_id: accountId})
+            if(myVotes)
+                res.status(200).json({success: true, data: myVotes})
+            else res.status(500).json({success:false})
+        }
+        else res.status(403).json({success:true})
+    })
 
     // account creation
-    // {firstname, lastname, username,password,pubKey,ssn}
+    // {firstname, lastname, username,password,pubKey,ssn} WORKIING
     app.post('/create-account', async (req, res) => {
         const { body } = req;
         const { username, password, pubKey, ssn, firstName, lastName } = body;
@@ -43,7 +55,7 @@ if (connected) {
 
     })
 
-    // login
+    // login WORKING
     app.post('/login', async (req, res) => {
         const { body } = req;
         const { username, password } = body;
@@ -68,8 +80,8 @@ if (connected) {
         // return all active votes
     })
 
-    // vote?id
-    app.get('/vote', async (req, res) => {
+    // GET ELECTION BY ID
+    app.get('/election', async (req, res) => {
         const authenticated = await auth(req)
         if (authenticated) {
             const { id } = req.params
@@ -80,10 +92,28 @@ if (connected) {
 
     })
 
-    // create-vote
-    app.post('/create-vote', (req, res) => {
-        const { body } = req;
-        const { jwt, votingOptions } = body;
+    // CREATE VOTE WORKING
+    app.post('/create-election', async (req, res) => {
+        const authenticated = await auth(req)
+        if(authenticated){
+            console.log('authenticated')
+            const {candidates, election} = req.body
+            const electionId = await cockroach.create('ELECTIONS',election)
+            if(electionId){
+                for(let i =0 ; i < candidates.length; i++){
+                    const result = await cockroach.create('CANDIDATES',{...candidates[i], election_id: electionId})
+                    if(!result){
+                        return res.status(500).json({success: false})
+                    }
+                }
+                return res.status(200).json({success: true})
+
+            }
+            else{
+                return res.status(403).json({success: false})
+            }
+            
+        }
         // create entry in votes table
         // return vote id
     })
