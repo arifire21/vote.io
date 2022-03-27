@@ -6,9 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 //pages
 import Login from './pages/login';
-import CreatePoll from './pages/create-poll';
+import CreatePoll from './pages/create-poll3';
 import ViewPoll from './pages/view-poll';
-import NewUser from './pages/new-user';
+import NewUser from './pages/new-user2';
 // import VotePage from './pages/vote';
 
 ReactDOM.render(
