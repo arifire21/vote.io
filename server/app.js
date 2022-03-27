@@ -27,10 +27,6 @@ connected ? console.log('connected to cockroach') : console.log('there was an er
 
 if (connected) {
 
-(async function(){
-    const result = await getUserFromToken('0miebmu5p1o888r6cph7')
-    console.log(result)
-})()
 
     app.get('/my-votes',async(req,res)=>{
         const authenticated = await auth(req)
@@ -157,7 +153,7 @@ if (connected) {
     app.post('/vote', async (req, res) => {
         const authorization = await auth(req)
         if(authorization){
-            const {candidate,signature} = req.body
+            const {candidate,signature,election} = req.body
             console.log({...req.body})
             const userId = await getUserFromToken(authorization)
             
@@ -167,7 +163,11 @@ if (connected) {
             verifier.update(candidate)
             const {pubkey : pk} = entry
             if(verifier.verify(pk,signature,'base64')){
-                const result = await cockroach.create({})
+                await cockroach.create('VOTES',{
+                    account_id: entry.id,
+                    election_id: election,
+                    candidate_id: candidate
+                })
                 res.send({success: true})
             }
             else{
@@ -179,6 +179,8 @@ if (connected) {
 
         }
     })
+
+    
 }
 
 
