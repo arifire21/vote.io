@@ -1,24 +1,11 @@
 import TestHeader from "../components/TestHeader";
 import { Button, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 export default function Login() {
   return (
     <div>
-      {/* <TestHeader/> */}
-
-      {/* custom nav header bc this is an isolated page */}
-      <header>
-        <nav
-          style={{
-            borderBottom: "solid 1px",
-            paddingBottom: "1rem",
-          }}
-        >
-          <Link to="/">Home</Link>
-        </nav>
-
-      </header>
+      <Navbar/>
 
       <h1>Login to Vote.io</h1>
       <div className="form-container">
@@ -36,8 +23,10 @@ export default function Login() {
             />
         </div>
         <div className="form-item submit-btn">
-          <Button variant="contained">Login</Button>
-        </div>
+            <span style={{ cursor: 'not-allowed' }}>
+              <Button variant="contained">Login</Button>
+            </span>
+          </div>
       </div>
     </div>
   );
