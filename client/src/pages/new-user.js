@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import axios from "axios";
 
 function checkPassword(form) {
   // password1 = form.password1.value;
@@ -73,7 +74,7 @@ class NewUser extends React.Component {
   }
 
   handleUsernameChange = event => {
-    this.setState({ email: username.target.value });
+    this.setState({ username: event.target.value });
   }
 
   handlePasswordChange = event => {
