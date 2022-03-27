@@ -7,10 +7,10 @@ const { verifyConnection } = require('./utils/cockroach')
 
 if (verifyConnection()) {
     // account creation
-    // {username,password,pubKey,2xHashedSSN,aboutObject}
+    // {username,password,pubKey,2xHashedSSN, firstName, lastName}
     app.post('/create-account', (req, res)=> {
         const {body} = req;
-        const {username, password, pubKey, ssn, aboutObject} = body;
+        const {username, password, pubKey, ssn, firstName, lastName} = body;
         console.log(`${username} ${password} ${pubKey}`);
         // verify ssn with list of registered voters
         // create user
