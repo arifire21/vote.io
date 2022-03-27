@@ -21,7 +21,7 @@ module.exports = {
         try{
             const sql = `SELECT * FROM ${collection} where id = '${id}';`
             const {rows} = await client.query(sql)
-            return rows
+            return [rows]
         }
         catch(e){
             return null
@@ -102,14 +102,6 @@ module.exports = {
             return false
         }
     },
-    async testSelect() {
-        try {
-            const { rows } = await client.query('SELECT * FROM USERS')
-            console.log(rows)
-        }
-        catch (e) {
-            console.log(e)
-        }
-    }
+   
 }
 
