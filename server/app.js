@@ -5,8 +5,9 @@ const cockroach = require('./utils/cockroach');
 const tokenGen = require('random-token')
 const token = () => tokenGen(20)
 const connected = cockroach.verifyConnection()
-const {auth} = require('./utils/auth');
+const { auth } = require('./utils/auth');
 const { findOne } = require('./utils/cockroach');
+const {getUserFromToken} = require('./utils/user')
 
 /* 
 findAll(collection) -> rows []
@@ -22,27 +23,24 @@ verifyConnection() -> boolean
 connected ? console.log('connected to cockroach') : console.log('there was an error with the database connection')
 
 if (connected) {
+
+(async function(){
+    const result = await getUserFromToken('0miebmu5p1o888r6cph7')
+    console.log(result)
+})()
+
+
     // account creation
     // {firstname, lastname, username,password,pubKey,ssn}
-    app.post('/create-account', async (req, res)=> {
-        const {body} = req;
-        const {username, password, pubKey, ssn, firstName, lastName} = body;
-        // verify ssn with list of registered voters
-        // create user
-        const user_id = await cockroach.create('USERS', {username, password});
-        // create account
-        await cockroach.create('ACCOUNT', {f_name:firstName, l_name:lastName, user_id:user_id, ssn, pubkey:pubKey});
-        // attach pubkey to user
-        // return jwt
-        const token = token();
-        const issued_token = await cockroach.findWhere('TOKEN', {token:token});
-        if (issued_token){
-            console.log("Token already issued");
-            return res.status(400).json({success:false, token:issued_token});
-        }else{ 
-            await cockroach.create('TOKEN',{token:token, user_id:user_id});
-            return res.status(200).json({success:true, token:token});
-        }
+    app.post('/create-account', async (req, res) => {
+        const { body } = req;
+        const { username, password, pubKey, ssn, firstName, lastName } = body;
+        const user_id = await cockroach.create('USERS', { username, password });
+        await cockroach.create('ACCOUNT', { f_name: firstName, l_name: lastName, user_id: user_id, ssn, pubkey: pubKey });
+        const _token = token();
+        await cockroach.create('TOKEN', { token: _token, user_id: user_id });
+        return res.status(200).json({ success: true, token: _token });
+
     })
 
     // login
@@ -51,42 +49,55 @@ if (connected) {
         const {username, password} = body;
         const [entry] = await cockroach.findWhere('USERS', {username});
         if (password === entry.password){
-
+            res.status(200).json({success: true})
         }else{
-            res.status(403).json(success:false);
+            res.status(403).json({success: false});
         }
         // return the jwt
-
+        const _token = await cockroach.findWhere('TOKEN', {user_id: entry.id});
+        return _token;
     })
 
     // votes
-    app.get('/votes', async(req, res)=> {
-        const worked = await auth(req)
-        res.send(worked)
+    app.get('/votes', async (req, res) => {
+        const authenticated = await auth(req)
+        if (authenticated) {
+            const allVotes = await cockroach.findAll('VOTES')
+            res.status(200).json({ success: true, data: allVotes })
+        }
+        else {
+            res.status(403).json({ success: false })
+        }
+
 
 
         // return all active votes
     })
 
     // vote?id
-    app.get('/vote', (req, res)=> {
-        const {id} = req.query;
-        res.send(`${id}`);
-        // returns the votes with the specified id
+    app.get('/vote', async (req, res) => {
+        const authenticated = await auth(req)
+        if (authenticated) {
+            const { id } = req.params
+            const vote = await cockroach.findOne('ELECTIONS', id)
+            res.status(200).json({ success: true, data: vote })
+        }
+        else res.status(403).json({ success: false })
+
     })
 
     // create-vote
-    app.post('/create-vote', (req, res)=> {
-        const {body} = req;
-        const {jwt, votingOptions} = body;
+    app.post('/create-vote', (req, res) => {
+        const { body } = req;
+        const { jwt, votingOptions } = body;
         // create entry in votes table
         // return vote id
     })
 
     // vote
-    app.post('/vote', (req, res)=> {
-        const {body} = req;
-        const {jwt, signedVote} = body;
+    app.post('/vote', (req, res) => {
+        const { body } = req;
+        const { jwt, signedVote } = body;
         // privkey signed vote submitted
         // verify vote with pubkey
         // tally verified votes
