@@ -5,57 +5,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 
-function checkPassword(form) {
-  // password1 = form.password1.value;
-  // password2 = form.password2.value;
-
-  // // If password not entered
-  // if (password1 == '')
-  //     alert ("Please enter Password");
-        
-  // // If confirm password not entered
-  // else if (password2 == '')
-  //     alert ("Please enter confirm password");
-        
-  // // If Not same return False.    
-  // else if (password1 != password2) {
-  //     alert ("\nPassword did not match: Please try again...")
-  //     return false;
-  // }
-
-  // // If same return True.
-  // else{
-  //     alert("Password Match!")
-  //     return true;
-  // }
-}
-
 class NewUser extends React.Component {
-  // const [password , setPassword] = useState('');
-  //   const [confPassword , setConfPassword] = useState('');
-
-  //   // function to update state of password with
-  //   // value enter by user in form
-  //   const handlePasswordChange =(e)=>{
-  //       setPassword(e.target.value);
-  //   }
-  //   // function to update state of confirm password
-  //   // with value enter by user in form
-  //   const handleConfPasswordChange =(e)=>{
-  //       setConfPassword(e.target.value);
-  //   }
-  //   // below function will be called when user
-  //   // click on submit button .
-  //   const handleSubmit=(e)=>{
-  //   if(password!=confPassword)
-  //       {
-  //           // if 'password' and 'confirm password'
-  //           // does not match.
-  //           alert("Passwords do not match.");
-  //       }
-  //   }
-
-  
 
   state = {
     first_name: '',
