@@ -2,8 +2,10 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 const cockroach = require('./utils/cockroach');
-
+const tokenGen = require('random-token')
+const token = () => tokenGen(20)
 const connected = cockroach.verifyConnection()
+const {auth} = require('./utils/auth')
 
 /* 
 findAll(collection) -> rows []
@@ -20,7 +22,11 @@ connected ? console.log('connected to cockroach') : console.log('there was an er
 
 if (connected) {
     // account creation
+<<<<<<< HEAD
     // {username,password,pubKey,2xHashedSSN, firstName, lastName}
+=======
+    // {firstname, lastname, username,password,pubKey,ssn}
+>>>>>>> f2acf228b1bebcd584abbe8ad9fed0462e861594
     app.post('/create-account', (req, res)=> {
         const {body} = req;
         const {username, password, pubKey, ssn, firstName, lastName} = body;
@@ -42,9 +48,11 @@ if (connected) {
     })
 
     // votes
-    app.get('votes', (req, res)=> {
-        const {body} = req;
-        const {jwt} = body;
+    app.get('/votes', async(req, res)=> {
+        const worked = await auth(req)
+        res.send(worked)
+
+
         // return all active votes
     })
 
