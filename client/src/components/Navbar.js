@@ -20,7 +20,13 @@ export default function Navbar() {
                         </Tooltip>
                     </div>
                 </div>
-
+                <div className="navlink-item">
+                    <div className="navbar-tooltip">
+                        <Button variant="text" size="small">
+                            <Link to="/new-user">Register</Link>
+                        </Button>
+                    </div>
+                </div>
                 <div className="navlink-item">
                    <div className="navbar-tooltip">
                         <Tooltip title="Login" placement="right">
