@@ -3,8 +3,28 @@ import Card from './components/Card';
 import Subcard from './components/Subcard';
 import Grid from '@mui/material/Grid';
 import Navbar from './components/Navbar'
+import axios from 'axios';
+import { Button } from '@mui/material';
 
 function App() {
+  // const [post, setPost] = React.useState(null);
+
+  // React.useEffect(() => {
+  //   axios.get("http://localhost:5000/election").then((response) => {
+  //     setPost(response.data);
+  //   });
+  // }, []);
+
+  // if (!post) return null;
+
+  // React.useEffect(() => {
+  //   axios.get("http://localhost:5000/votes").then((response) => {
+  //     setPost(response.data);
+  //   });
+  // }, []);
+
+  // if (!post) return null;
+
   return (
     <div>
       <Navbar/>
@@ -20,7 +40,7 @@ function App() {
         <Subcard subtitle = "Tampa Mayor Race" 
                 name1 ="Person1"
                 name2 ="Person2"
-                name3 ="Person3"
+                // votesP1={post.}
         />
         </Grid>
 
@@ -28,18 +48,18 @@ function App() {
         <Subcard subtitle = "USF 2022 Class President"
                       name1 ="Person1"
                       name2 ="Person2"
-                      name3 ="Person3"
               />
         </Grid>
         <Grid item md={11.7}>
         <Subcard subtitle = "Your Votes"
                           name1 ="Person1"
                           name2 ="Person2"
-                          name3 ="Person3"
                   />
         </Grid>
         
       </Grid>
+
+      <Button variant="contained">Login</Button>
       
     </div>
 
