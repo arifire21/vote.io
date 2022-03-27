@@ -6,6 +6,7 @@ import { ImHome} from 'react-icons/im';
 import { RiLoginBoxFill} from 'react-icons/ri';
 import { IoMdCreate} from 'react-icons/io';
 import { AiFillEye} from 'react-icons/ai';
+import { FaRegistered} from 'react-icons/fa';
 
 export default function Navbar() {
     return (
@@ -22,9 +23,11 @@ export default function Navbar() {
                 </div>
                 <div className="navlink-item">
                     <div className="navbar-tooltip">
+                    <Tooltip title="Register" placement="right">
                         <Button variant="text" size="small">
-                            <Link to="/new-user">Register</Link>
+                            <Link to="/new-user"><FaRegistered/></Link>
                         </Button>
+                    </Tooltip>
                     </div>
                 </div>
                 <div className="navlink-item">
