@@ -12,6 +12,11 @@ export default function Navbar() {
                 </div>
                 <div className="navlink-item">
                     <Button variant="text" size="small">
+                        <Link to="/new-user">Register</Link>
+                    </Button>
+                </div>
+                <div className="navlink-item">
+                    <Button variant="text" size="small">
                         <Link to="/login">Login</Link>
                     </Button>
                 </div>
