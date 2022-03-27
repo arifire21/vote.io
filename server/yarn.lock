@@ -411,6 +411,11 @@ split2@^4.1.0:
   resolved "https://registry.yarnpkg.com/split2/-/split2-4.1.0.tgz#101907a24370f85bb782f08adaabe4e281ecf809"
   integrity sha512-VBiJxFkxiXRlUIeyMQi8s4hgvKCSjtknJv/LVYbrgALPwf5zSKmEwV9Lst25AkvMDnvxODugjdl6KZgwKM1WYQ==
 
+sql-escape@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/sql-escape/-/sql-escape-1.0.1.tgz#f7a050743c4f2f91bc4aa8552ed10ed1c2284e2f"
+  integrity sha1-96BQdDxPL5G8SqhVLtEO0cIoTi8=
+
 "statuses@>= 1.5.0 < 2", statuses@~1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
