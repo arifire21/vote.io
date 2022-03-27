@@ -55,27 +55,20 @@ if (connected) {
 
     })
 
-<<<<<<< HEAD
     // login
     app.post('/login', async (req, res)=> {
         const {body} = req;
         const {username, password} = body;
         const [entry] = await cockroach.findWhere('USERS', {username});
+        const _token = await cockroach.findWhere('TOKEN', {user_id: entry.id});
+        
         if (password === entry.password){
-            res.status(200).json({success: true})
+            res.status(200).json({success: true, token: _token})
         }else{
             res.status(403).json({success: false});
         }
-=======
-    // login WORKING
-    app.post('/login', async (req, res) => {
-        const { body } = req;
-        const { username, password } = body;
-        console.log(`username: ${username} | password: ${password}`)
->>>>>>> b0df9babff22e46b565b74faf28059f1e039f304
         // return the jwt
-        const _token = await cockroach.findWhere('TOKEN', {user_id: entry.id});
-        return _token;
+        
     })
 
     // votes
