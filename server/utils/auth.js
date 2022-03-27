@@ -9,7 +9,12 @@ module.exports = {
             if (authHeaders !== undefined) {
                 const [, jwt] = authHeaders.split(' ')
                 const result = await cockroach.findWhere('TOKEN', { token: jwt })
-                return result.length > 0
+                if(result && result.length > 0){
+                    const [{token}] = result
+                    return token
+                }
+                else return false
+                    
             }
             else return false
 

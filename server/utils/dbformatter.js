@@ -5,8 +5,10 @@ module.exports = {
         const keys = []
         const values = []
         Object.entries(entry).forEach(([_key, _value]) => {
-            const key = escape(_key)
-            const value = escape(_value)
+            // TODO ESCAPE THIS LATER
+            const key = _key
+            const value = _value
+            // TODO ESCAPE THIS LATER
             keys.push(key)
             values.push(value)
         })
