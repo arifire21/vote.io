@@ -5,7 +5,8 @@ const cockroach = require('./utils/cockroach');
 const tokenGen = require('random-token')
 const token = () => tokenGen(20)
 const connected = cockroach.verifyConnection()
-const {auth} = require('./utils/auth')
+const {auth} = require('./utils/auth');
+const { findOne } = require('./utils/cockroach');
 
 /* 
 findAll(collection) -> rows []
@@ -23,7 +24,7 @@ connected ? console.log('connected to cockroach') : console.log('there was an er
 if (connected) {
     // account creation
     // {firstname, lastname, username,password,pubKey,ssn}
-    app.post('/create-account', (req, res)=> {
+    app.post('/create-account', async (req, res)=> {
         const {body} = req;
         const {username, password, pubKey, ssn, firstName, lastName} = body;
         // verify ssn with list of registered voters
@@ -34,12 +35,18 @@ if (connected) {
         // attach pubkey to user
         // return jwt
         const token = token();
-        await cockroach.create('TOKEN',{token:token, user_id:user_id});
-        return token;
+        const issued_token = await cockroach.findWhere('TOKEN', {token:token});
+        if (issued_token){
+            console.log("Token already issued");
+            return res.status(400).json({success:false, token:issued_token});
+        }else{ 
+            await cockroach.create('TOKEN',{token:token, user_id:user_id});
+            return res.status(200).json({success:true, token:token});
+        }
     })
 
     // login
-    app.post('/login', (req, res)=> {
+    app.post('/login', async (req, res)=> {
         const {body} = req;
         const {username, password} = body;
         console.log(`username: ${username} | password: ${password}`)
