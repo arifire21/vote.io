@@ -13,8 +13,6 @@ create(collection, entry(JSON)) -> new ID
 update(collection,id,entry(JSON)) -> boolean
 delete(collection,id) -> boolean
 verifyConnection() -> boolean
-
-
 */
 
 
