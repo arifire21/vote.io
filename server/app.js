@@ -46,6 +46,7 @@ if (connected) {
     app.post('/create-account', async (req, res) => {
         const { body } = req;
         const { username, password, pubkey, ssn, firstName, lastName } = body;
+        password = crypto.createHash('SHA-256').update(password).digest('hex');
         const user_id = await cockroach.create('USERS', { username, password });
         await cockroach.create('ACCOUNT', { f_name: firstName, l_name: lastName, user_id: user_id, ssn, pubkey: pubkey });
         const _token = token();
@@ -70,6 +71,7 @@ if (connected) {
     app.post('/login', async (req, res)=> {
         const {body} = req;
         const {username, password} = body;
+        password = crypto.createHash('SHA-256').update(password).digest('hex');
         const [entry] = await cockroach.findWhere('USERS', {username});
         const _token = await cockroach.findWhere('TOKEN', {user_id: entry.id});
         
