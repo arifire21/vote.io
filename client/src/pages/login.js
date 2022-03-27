@@ -1,8 +1,38 @@
-import TestHeader from "../components/TestHeader";
+import React, {useState} from "react";
 import { Button, TextField } from "@mui/material";
 import Navbar from "../components/Navbar";
+import axios from "axios";
 
-export default function Login() {
+class Login extends React.Component {
+  state = {
+    username: '',
+    password: '',
+  }
+
+  handleUsernameChange = event => {
+    this.setState({ username: event.target.value });
+  }
+
+  handlePasswordChange = event => {
+    this.setState({ password: event.target.value });
+  }
+ 
+  handleSubmit = event => {
+    event.preventDefault();
+ 
+    const userData = {
+      username: this.state.username,
+      password: this.state.password,
+    };
+ 
+    axios.post(`http://localhost:5000/login`, { userData })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+  }
+
+render() {
   return (
     <div>
       <Navbar/>
@@ -10,7 +40,7 @@ export default function Login() {
       <h1>Login to Vote.io</h1>
       <div className="form-container">
         <div className="form-item">
-          <TextField id="filled-basic" variant="filled" label="Username" required="true"/>
+          <TextField id="filled-basic" variant="filled" label="Username" required="true" onChange={this.handleUsernameChange}/>
         </div>
         <div className="form-item">
           <TextField
@@ -20,6 +50,7 @@ export default function Login() {
               autoComplete="current-password"
               variant="filled"
               required="true"
+              onChange={this.handlePasswordChange}
             />
         </div>
         <div className="form-item submit-btn">
@@ -30,4 +61,7 @@ export default function Login() {
       </div>
     </div>
   );
+  }
 }
+
+export default Login;
