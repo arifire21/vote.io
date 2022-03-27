@@ -64,8 +64,8 @@ h1{
 /* NAVBAR STUFF */
 .navbar{
   height: 100vh;
-  position: absolute;
-  width: 10%;
+  position: fixed;
+  width: 100px;
   margin-right: 30px;
   background-color: rgb(27, 106, 158);
   top: 0%;

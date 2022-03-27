@@ -46,6 +46,11 @@ tr :hover{
 
 .text-white {
   color: white;
+  font-size: 25px;
+}
+
+p, span, div {
+  font-family: 'Roboto' !important;
 }
 
 
