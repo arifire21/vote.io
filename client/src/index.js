@@ -6,9 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 //pages
 import Login from './pages/login';
-import CreatePoll from './pages/create-poll3';
+import CreatePoll from './pages/create-poll';
 import ViewPoll from './pages/view-poll';
-import NewUser from './pages/new-user2';
+import NewUser from './pages/new-user';
 // import VotePage from './pages/vote';
 
 ReactDOM.render(
@@ -17,9 +17,9 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/create-poll" element={<CreatePoll />} />
+        <Route path="/create-election" element={<CreatePoll />} />
         <Route path="/view-poll" element={<ViewPoll />} />
-        <Route path="/new-user" element={<NewUser />} />
+        <Route path="/create-account" element={<NewUser />} />
         {/* <Route path="/vote" element={<VotePage />} /> */}
       </Routes>
     </React.StrictMode>
