@@ -1,129 +1,110 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import axios from "axios";
+import { doubleHash, generateAndSaveKeys } from "../utils/security";
+import axios from 'axios'
+import Grid from '@mui/material/Grid'
 
-function checkPassword(form) {
-  // password1 = form.password1.value;
-  // password2 = form.password2.value;
 
-  // // If password not entered
-  // if (password1 == '')
-  //     alert ("Please enter Password");
+
+
+export default function NewUser() {
+  const [login, setLogin] = useState({})
+  const [registered, setRegistered] = useState(false)
+
+  async function submit() {
+    if (login.username && login.password && login.l_name && login.f_name && login.ssn) {
+      const hashedSSN = await doubleHash(login.ssn)
+      const publicKey = await generateAndSaveKeys()
+      //get pub key
+      
+      console.log(login)
+      try {
+        const { data } = await axios.post('http://localhost:5000/create-account', {
+          ...login,
+          ssn: hashedSSN, 
+          pubkey: publicKey
+        })
         
-  // // If confirm password not entered
-  // else if (password2 == '')
-  //     alert ("Please enter confirm password");
-        
-  // // If Not same return False.    
-  // else if (password1 != password2) {
-  //     alert ("\nPassword did not match: Please try again...")
-  //     return false;
-  // }
+        if (data.success) {
+          setRegistered(true)
+          console.log(data)
+          const {token} = data
+          document.cookie =  `jwt=${token};`
+          
+        }
 
-  // // If same return True.
-  // else{
-  //     alert("Password Match!")
-  //     return true;
-  // }
-}
+      }
+      catch (e) {
 
-class NewUser extends React.Component {
-
-
-  
-
-  state = {
-    first_name: '',
-    last_name: '',
-    password: '',
-    username:'',
-    ssn: '',
+      }
+    }
   }
 
-  handleFirstNameChange = event => {
-    this.setState({ first_name: event.target.value });
-  }
+  return (
+    <div>
+      <Navbar />
 
-  handleLastNameChange = event => {
-    this.setState({ last_name: event.target.value });
-  }
+      {(() => {
+        if (registered) {
+          return (
+          <div>
+            <h2 className="text-center">You Have Registered Successfully!</h2>
+            <Grid container justifyContent="center" alignItems="center" mt={5}>
+            <img src="/img/check.png" width="300px" className="text-center" />
+            </Grid>
+            
+          </div>
+          )
+        }
+        else {
+          return (
+            <div>
 
-  handleUsernameChange = event => {
-    this.setState({ username: event.target.value });
-  }
+              <h1>Register to Vote.io</h1>
+              <div className="form-container">
 
-  handlePasswordChange = event => {
-    this.setState({ password: event.target.value });
-  }
+                <div className="form-item">
+                  <TextField id="new-user-fn" variant="filled" label="Username" required="true" onChange={(e) => setLogin(prev => ({ ...prev, username: e.target.value }))} />
+                </div>
 
-  handleSSNChange = event => {
-    this.setState({ ssn: event.target.value });
-  }
- 
-  handleSubmit = event => {
-    event.preventDefault();
- 
-    const userData = {
-      username: this.state.username,
-      password: this.state.password,
+                <div className="form-item">
+                  <TextField id="new-user-fn" variant="filled" label="First Name" required="true" onChange={(e) => setLogin(prev => ({ ...prev, f_name: e.target.value }))} />
+                </div>
+                <div className="form-item">
+                  <TextField id="new-user-ln" variant="filled" label="Last Name" required="true" onChange={(e) => setLogin(prev => ({ ...prev, l_name: e.target.value }))} />
+                </div>
 
-      ssn: this.state.ssn,
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-    };
- 
-    console.log(user)
-  }
+                <div className="form-item">
+                  <TextField id="new-user-ln" variant="filled" label="SSN*" required="true" onChange={(e) => setLogin(prev => ({ ...prev, ssn: e.target.value }))} />
+                  <p>*Social Security Numbers arey encrypted before they leave your browser</p>
+                </div>
 
-    render() {
-    return (
-      <div>
-        <Navbar/>
 
-          <h1>Register to Vote.io</h1>
-          <div className="form-container">
-            <div className="form-item">
-              <TextField id="new-user-fn" variant="filled" label="First Name" required="true" onChange={this.handleFirstNameChange}/>
-              <TextField id="new-user-ln" variant="filled" label="Last Name" required="true" onChange={this.handleLastNameChange}/>
-            </div>
-            <div className="form-item">
-              <TextField id="new-username" variant="filled" label="Username" required="true" onChange={this.handleUsernameChange}/>
-            </div>
-            <div className="form-item">
-              <TextField id="new-ssn" variant="filled" label="SSN" required="true" onChange={this.handleSSNChange}/>
-            </div>
-
-            <div className="form-item">
-                <TextField
+                <div className="form-item">
+                  <TextField
                     id="filled-password-input"
                     label="Password"
                     type="password"
                     variant="filled"
                     required="true"
-                    onChange={this.handlePasswordChange}
-                />
-            </div>
+                    onChange={(e) => setLogin(prev => ({ ...prev, password: e.target.value }))}
+                  />
+                </div>
 
-            {/* <div className="form-item">
-                <TextField
-                    id="filled-password-input"
-                    label="Confirm Password"
-                    type="password"
-                    name="confirm-pw"
-                    variant="filled"
-                    required="true"
-                />
-            </div> */}
 
-            <div className="form-item submit-btn">
-              <Button variant="contained" onClick={() => handleSubmit()}>Register</Button>
+                <div className="form-item submit-btn">
+                  <Button variant="contained" onClick={() => submit()}>Register</Button>
+                </div>
+              </div>
             </div>
-          </div>
-      </div>
-    );
-  }
+          )
+        }
+      })()}
+
+
+    </div>
+  );
 }
-export default NewUser;

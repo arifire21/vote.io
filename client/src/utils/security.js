@@ -24,8 +24,9 @@ export async function generateAndSaveKeys(){
 
     let privKeyExport = await window.crypto.subtle.exportKey("pkcs8",privateKey)
     let privKey = window.btoa(String.fromCharCode(...new Uint8Array(privKeyExport)));
-    document.cookie = `privatekey=${privKey};publickey=${pub}`
-    console.log(document.cookie)
+    document.cookie = `privatekey=${privKey};`
+    
+    return pub
     
 }
 

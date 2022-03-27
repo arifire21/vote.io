@@ -25,7 +25,7 @@ export default function Navbar() {
                     <div className="navbar-tooltip">
                     <Tooltip title="Register" placement="right">
                         <Button variant="text" size="small">
-                            <Link to="/new-user"><FaRegistered color="white"/></Link>
+                            <Link to="/create-account"><FaRegistered color="white"/></Link>
                         </Button>
                     </Tooltip>
                     </div>

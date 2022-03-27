@@ -49,13 +49,25 @@ if (connected) {
     // {firstname, lastname, username,password,pubKey,ssn} WORKIING
     app.post('/create-account', async (req, res) => {
         const { body } = req;
-        const { username, password, pubKey, ssn, firstName, lastName } = body;
+        const { username, password, pubkey, ssn, firstName, lastName } = body;
         const user_id = await cockroach.create('USERS', { username, password });
-        await cockroach.create('ACCOUNT', { f_name: firstName, l_name: lastName, user_id: user_id, ssn, pubkey: pubKey });
+        await cockroach.create('ACCOUNT', { f_name: firstName, l_name: lastName, user_id: user_id, ssn, pubkey: pubkey });
         const _token = token();
         await cockroach.create('TOKEN', { token: _token, user_id: user_id });
         return res.status(200).json({ success: true, token: _token });
 
+    })
+
+    app.get('/candidates', async (req,res)=> {
+        const authorization = await auth(req)
+        if(authorization){
+            const {election} = req.query
+            console.log(election)
+            const allWhere = await cockroach.findWhere('CANDIDATES',{election_id: election})
+            console.log(allWhere)
+            res.status(200).send({success: true, data: allWhere})
+        }
+        else res.status(403).json({success: false})
     })
 
     // login
@@ -94,12 +106,23 @@ if (connected) {
     app.get('/election', async (req, res) => {
         const authenticated = await auth(req)
         if (authenticated) {
-            const { id } = req.params
-            const vote = await cockroach.findOne('ELECTIONS', id)
+            const { id } = req.query
+            const vote = await cockroach.findWhere('ELECTIONS', {id: id})
+            console.log(vote)
             res.status(200).json({ success: true, data: vote })
         }
         else res.status(403).json({ success: false })
 
+    })
+
+    app.get('/elections', async(req,res) => {
+        const authenticated = await auth(req)
+        if(authenticated){
+            const rows = await cockroach.findAll('ELECTIONS')
+            
+            res.status(200).json({"success": true, data: rows})
+        }
+        else res.status(403).json({"success": false})
     })
 
     // CREATE VOTE WORKING
@@ -133,17 +156,20 @@ if (connected) {
         const authorization = await auth(req)
         if(authorization){
             const {candidate,signature} = req.body
+            console.log({...req.body})
             const userId = await getUserFromToken(authorization)
-            const [entry] = await cockroach.findWhere('ACCOUNTS',{user_id: userId})
-
+            
+            const [entry] = await cockroach.findWhere('ACCOUNT',{user_id: userId})
+            console.log(entry)
             const verifier = crypto.createVerify('RSA-SHA256');
             verifier.update(candidate)
             const {pubkey : pk} = entry
             if(verifier.verify(pk,signature,'base64')){
-                console.log('TRUEEEE')
+                const result = await cockroach.create({})
+                res.send({success: true})
             }
             else{
-                console.log("ERRRORORORRO")
+                res.send({success: false})
             }
 
             
