@@ -17,11 +17,6 @@ h1{
   text-align: center;
 }
 
-.form-container {
-  display: flex;
-  flex-direction: column;
-}
-
 .vote{
   background-color: light blue;
   color: white ;
@@ -35,6 +30,11 @@ h1{
 
 .voteContent{
   font-size: 50;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
 }
 
 .form-item {
@@ -61,10 +61,20 @@ h1{
   padding: 20px;
 }
 
+/* NAVBAR STUFF */
 .navbar-container {
   height: 100vh;
   width: 10%;
   margin: 20px 30px;
   background-color: powderblue;
   border-radius: 10px;
+}
+
+.navlink-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.navlink-item {
+  text-align: center;
 }
