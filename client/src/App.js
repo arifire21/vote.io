@@ -1,11 +1,12 @@
 import './App.css';
-import TestHeader from './components/TestHeader';
+// import TestHeader from './components/TestHeader';
+import Navbar from './components/Navbar'
 
 function App() {
   return (
     <div>
-      <TestHeader/>
-      <h1>Dashboard</h1>
+      {/* <TestHeader/> */}
+      <Navbar/>
     </div>
   );
 }
