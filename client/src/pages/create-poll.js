@@ -60,7 +60,7 @@ render() {
     <div>
       <Navbar/>
       <h1>Create a Poll</h1>
-      <form onSubmit={this.handleSubmit}>
+      <form>
         <div className="form-container">
           <div className="form-item">
             <TextField id="create-title" variant="filled" label="Title" required="true" onChange={this.handleNameChange}/>
@@ -87,7 +87,7 @@ render() {
           </div>
           <div className="form-item submit-btn">
             <span style={{ cursor: 'not-allowed' }}>
-              <Button variant="contained">Submit</Button>
+              <Button variant="contained" onSubmit={this.handleSubmit}>Submit</Button>
             </span>
           </div>
         </div>
