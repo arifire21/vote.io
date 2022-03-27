@@ -49,7 +49,12 @@ if (connected) {
     app.post('/login', async (req, res)=> {
         const {body} = req;
         const {username, password} = body;
-        console.log(`username: ${username} | password: ${password}`)
+        const [entry] = await cockroach.findWhere('USERS', {username});
+        if (password === entry.password){
+
+        }else{
+            res.status(403).json(success:false);
+        }
         // return the jwt
 
     })
