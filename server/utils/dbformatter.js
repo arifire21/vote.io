@@ -1,13 +1,13 @@
-const escape = require('sql-escape')
+const format = require('pg-format')
 
 module.exports = {
-    format(entry) {
+    formatObj(entry) {
         const keys = []
         const values = []
         Object.entries(entry).forEach(([_key, _value]) => {
             // TODO ESCAPE THIS LATER
-            const key = _key
-            const value = _value
+            const key = format('%I',_key)
+            const value = format('%s',_value)
             // TODO ESCAPE THIS LATER
             keys.push(key)
             values.push(value)

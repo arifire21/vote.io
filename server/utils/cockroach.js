@@ -2,14 +2,16 @@ const { Client } = require('pg')
 require('dotenv').config();
 const connectionString = process.env.CONN
 const client = new Client({ connectionString })
-const {format} = require('./dbformatter')
+const {formatObj} = require('./dbformatter')
+const format = require('pg-format')
 
 client.connect()
+
 
 module.exports = {
     async findAll(collection){
         try{
-            const sql = `SELECT * FROM ${collection};`
+            const sql = format(`SELECT * FROM ${ format('%s',collection)}`)
             const {rows} = await client.query(sql)
             return rows
         }
@@ -19,7 +21,7 @@ module.exports = {
     },
     async findOne(collection,id){
         try{
-            const sql = `SELECT * FROM ${collection} where id = '${id}';`
+            const sql = `SELECT * FROM ${ format('%s',collection)} where id = ${ format('%s',id)}`
             const {rows} = await client.query(sql)
             return [rows]
         }
@@ -29,14 +31,16 @@ module.exports = {
     },
     async findWhere(collection,entry){
         try{
-            const {keys,values,placeholderValues} = format(entry)
+            const {keys,values,placeholderValues} = formatObj(entry)
             const mappedSearch = keys.map((item,idx) => `${item} = ${placeholderValues[idx]}`).join(" AND ")
-            const sql = `SELECT * FROM ${collection} WHERE ${mappedSearch};`
+            console.log(collection)
+            const sql = `SELECT * FROM ${ format('%s',collection)} WHERE ${mappedSearch};`
             const query ={
                 text: sql,
                 values
             }
             const {rows} = await client.query(query)
+            console.log(values)
             return rows
         }
         catch(e){
@@ -47,8 +51,8 @@ module.exports = {
     },
     async create(collection, entry) {
         try {
-            const {keys,values, placeholderValues} = format(entry)
-            const sql =  `INSERT INTO ${collection} (${keys.join(',')}) VALUES(${placeholderValues.join(',')}) RETURNING ID;`
+            const {keys,values, placeholderValues} = formatObj(entry)
+            const sql =  `INSERT INTO ${ format('%s',collection)} (${keys.join(',')}) VALUES(${placeholderValues.join(',')}) RETURNING ID`
             const query = {
                 text: sql,
                 values
@@ -65,9 +69,9 @@ module.exports = {
     },
     async update(collection, id, entry) {
         try {
-            const {keys,values, placeholderValues} = format(entry)
+            const {keys,values, placeholderValues} = formatObj(entry)
             const updateStatement = keys.map((item,idx) => `${item} = ${placeholderValues[idx]}`).join(',')
-            const sql = `UPDATE ${collection} SET ${updateStatement} WHERE id = '${id}';`
+            const sql = `UPDATE ${ format('%s',collection)} SET ${updateStatement} WHERE id = '${ format('%s',id)}'`
             const query = {
                 text: sql,
                 values
@@ -84,7 +88,7 @@ module.exports = {
     },
     async delete(collection, id) {
         try {
-            const sql = `DELETE FROM ${collection} WHERE ID = '${id}';`
+            const sql = `DELETE FROM ${ format('%s',collection)} WHERE ID = '${ format('%s',id)}'`
             await client.query(sql)
             return true
             
