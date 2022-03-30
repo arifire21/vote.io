@@ -1,11 +1,10 @@
-import { Button, Tooltip } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import { ImHome} from 'react-icons/im';
-
 import { RiLoginBoxFill} from 'react-icons/ri';
 import { IoMdCreate} from 'react-icons/io';
-import { AiFillEye} from 'react-icons/ai';
+// import { AiFillEye} from 'react-icons/ai';
 import { FaRegistered} from 'react-icons/fa';
 
 export default function Navbar() {
@@ -13,44 +12,38 @@ export default function Navbar() {
         <div className="navbar">
             <div className="navlink-container">
                 <div className="navlink-item">
-                    <div className="navbar-tooltip">
-                        <Tooltip title="Home" placement="right">
-                            <Button variant="text" size="large">
-                                <Link to="/"><ImHome color="white"/></Link>
-                            </Button>
-                        </Tooltip>
-                    </div>
-                </div>
-                <div className="navlink-item">
-                    <div className="navbar-tooltip">
-                    <Tooltip title="Register" placement="right">
-                        <Button variant="text" size="small">
-                            <Link to="/create-account"><FaRegistered color="white"/></Link>
-                        </Button>
+                    <Tooltip title="Home" placement="right" arrow>
+                        <IconButton size="large" aria-label="home">
+                            <Link to="/" className="link"><ImHome/></Link>
+                        </IconButton>
                     </Tooltip>
-                    </div>
-                </div>
-                <div className="navlink-item">
-                   <div className="navbar-tooltip">
-                        <Tooltip title="Login" placement="right">
-                            <Button variant="text" size="large">
-                                <Link to="/login"><RiLoginBoxFill color="white"/></Link>
-                            </Button>
-                        </Tooltip>
-                    </div>
                 </div>
 
                 <div className="navlink-item">
-                    <div className="navbar-tooltip">
-                        <Tooltip title="Create Election" placement="right">
-                            <Button variant="text" size="large">
-                                <Link to="/create-poll"><IoMdCreate color="white"/></Link>
-                            </Button>
-                        </Tooltip>
-                    </div>
+                    <Tooltip title="Register" placement="right" arrow>
+                        <IconButton size="large" aria-label="register">
+                            <Link to="/create-account" className="link"><FaRegistered/></Link>
+                        </IconButton>
+                    </Tooltip>
                 </div>
 
                 <div className="navlink-item">
+                    <Tooltip title="Login" placement="right" arrow>
+                        <IconButton size="large" aria-label="login">
+                            <Link to="/login" className="link"><RiLoginBoxFill/></Link>
+                        </IconButton>
+                    </Tooltip>
+                </div>
+
+                <div className="navlink-item">
+                    <Tooltip title="Create Election" placement="right" arrow>
+                        <IconButton size="large" aria-label="create-election">
+                            <Link to="/create-poll" className="link"><IoMdCreate/></Link>
+                        </IconButton>
+                    </Tooltip>
+                </div>
+
+                {/* <div className="navlink-item">
                     <div className="navbar-tooltip">
                         <Tooltip title="View Polls" placement="right">
                             <Button variant="text" size="large">
@@ -58,7 +51,7 @@ export default function Navbar() {
                             </Button>
                         </Tooltip>
                     </div>    
-                </div>
+                </div> */}
             </div>
         </div>
     );
