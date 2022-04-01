@@ -24,7 +24,7 @@ export async function generateAndSaveKeys(){
 
     let privKeyExport = await window.crypto.subtle.exportKey("pkcs8",privateKey)
     let privKey = window.btoa(String.fromCharCode(...new Uint8Array(privKeyExport)));
-    document.cookie = `privatekey=${privKey};`
+    window.localStorage.setItem('priv',privKey)
     
     return pub
     
@@ -40,7 +40,7 @@ function str2ab(str) {
   }
 
 async function loadPrivateKey(){
-    const privateKey = document.cookie.split('privatekey=')[1].split(';')[0]
+    const privateKey = window.localStorage.getItem('priv')
     const binaryDerString = window.atob(privateKey)
     const binaryDer = str2ab(binaryDerString)
     return await window.crypto.subtle.importKey("pkcs8",binaryDer,{name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256'},true,['sign'])
