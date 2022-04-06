@@ -14,7 +14,7 @@ export default function Navbar() {
                 <div className="navlink-item">
                     <Tooltip title="Home" placement="right" arrow>
                         <IconButton size="large" aria-label="home">
-                            <Link to="/" className="link"><ImHome/></Link>
+                            <Link to="/dashboard" className="link"><ImHome/></Link>
                         </IconButton>
                     </Tooltip>
                 </div>

@@ -106,3 +106,24 @@ h1{
 .text-center{
   text-align: center;
 }
+
+.btn-link {
+  text-decoration: none;
+  color: white;
+}
+
+.landing-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-item {
+  margin: 30px;
+  text-align: center;
+}
+
+.landing-btn {
+  display: inline-flex;
+  margin: 0 50px;
+  width: fit-content;
+}

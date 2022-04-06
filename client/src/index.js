@@ -9,6 +9,7 @@ import Login from './pages/login';
 import CreatePoll from './pages/create-poll';
 import ViewPoll from './pages/view-poll';
 import NewUser from './pages/new-user';
+import Dashboard from './pages/dashboard';
 // import VotePage from './pages/vote';
 
 ReactDOM.render(
@@ -20,6 +21,7 @@ ReactDOM.render(
         <Route path="/create-election" element={<CreatePoll />} />
         <Route path="/view-poll" element={<ViewPoll />} />
         <Route path="/create-account" element={<NewUser />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         {/* <Route path="/vote" element={<VotePage />} /> */}
       </Routes>
     </React.StrictMode>
